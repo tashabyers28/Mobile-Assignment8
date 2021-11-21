@@ -1,0 +1,4 @@
+#Sat Nov 20 17:28:03 CST 2021
+base.0=/Users/Tasha/Documents/Computer Programming/Mobile Programming/MobileProgramming/assignment_eight/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
