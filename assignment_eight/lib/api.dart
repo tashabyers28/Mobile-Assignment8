@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import './models/courses.dart';
 
 const String localhost = "http://localhost:1200/";
+//const String localhost = "10.0.2.2:1200/";
 
 class CourseStudentApi {
   final _dio = Dio(BaseOptions(baseUrl: localhost));
