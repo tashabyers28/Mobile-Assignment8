@@ -1,9 +1,10 @@
-import 'dart:convert';
+// ignore_for_file: avoid_types_as_parameter_names, non_constant_identifier_names, use_key_in_widget_constructors, annotate_overrides, prefer_const_constructors
 
-import 'package:assignment_eight/api.dart';
-import 'package:assignment_eight/models/courses.dart';
-import 'package:dio/dio.dart';
+//import 'package:assignment_eight/models/courses.dart';
 import 'package:flutter/material.dart';
+import 'api.dart';
+
+import 'getCourses.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,6 +36,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   //Set Variables here
   List courses = [];
+  bool _dbLoaded = false;
   //var courses = <Course>[];
 
   //Create functions here
@@ -44,28 +46,10 @@ class _MyHomePageState extends State<MyHomePage> {
     widget.api.getCourses().then((data) {
       setState(() {
         courses = data;
-        //_dbLoaded = true;
+        _dbLoaded = true;
       });
     });
   }
-
-  // _getCourses() {
-  //   widget.api.getCourses().then((response) {
-  //     setState(() {
-  //       Iterable list = json.decode(response.toString());
-  //       courses = list.map((model) => Course.fromJson(model)).toList();
-  //     });
-  //   });
-  // }
-
-  // initState() {
-  //   super.initState();
-  //   _getCourses();
-  // }
-
-  // dispose() {
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -74,17 +58,68 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text("Courses and Students App"),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextButton(
-                onPressed: () => {
-                      print(courses),
-                    },
-                child: Text("Press Me"))
-          ],
-        ),
-      ),
+          child: _dbLoaded
+              ? Column(
+                  children: [
+                    Expanded(
+                      child: ListView(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.all(15.0),
+                          children: [
+                            ...courses
+                                .map<Widget>(
+                                  (GetCourses) => Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 30),
+                                    child: TextButton(
+                                      onPressed: () => {
+                                        Navigator.pop(context),
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const SecondRoute() //Test
+                                                // GetCourses(
+                                                //   GetCourses['courseName'],
+                                                //   GetCourses[
+                                                //       'courseInstructor'],
+                                                //   GetCourses[
+                                                //       'courseCredits'],
+                                                // )
+                                                )),
+                                      },
+                                      child: ListTile(
+                                        // leading: CircleAvatar(
+                                        //   radius: 30,
+                                        //   child: Text(""),
+                                        // ),
+                                        title: Text(
+                                          (GetCourses['courseName'] +
+                                              GetCourses['courseInstructor'] +
+                                              GetCourses['courseCredits']
+                                                  .toString()),
+                                          style: const TextStyle(fontSize: 20),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ]),
+                    ),
+                  ],
+                )
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const <Widget>[
+                    Text(
+                      "Database Loading",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    CircularProgressIndicator()
+                  ],
+                )),
     );
   }
 }
