@@ -1,10 +1,12 @@
-// ignore_for_file: avoid_types_as_parameter_names, non_constant_identifier_names, use_key_in_widget_constructors, annotate_overrides, prefer_const_constructors
+// ignore_for_file: avoid_types_as_parameter_names, non_constant_identifier_names, use_key_in_widget_constructors, annotate_overrides, prefer_const_constructors, avoid_print
 
 //import 'package:assignment_eight/models/courses.dart';
 import 'package:flutter/material.dart';
 import 'api.dart';
 
+import 'getStudents.dart';
 import 'getCourses.dart';
+//import 'getCoursesStateful.dart';
 
 void main() {
   runApp(const MyApp());
@@ -47,6 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         courses = data;
         _dbLoaded = true;
+
+        //data.sort((a, b) => a.courseName.compareTo(b.courseName));
       });
     });
   }
@@ -61,44 +65,57 @@ class _MyHomePageState extends State<MyHomePage> {
           child: _dbLoaded
               ? Column(
                   children: [
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: const Text(
+                        "Name    |    Instructor    |    Credits",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ),
                     Expanded(
                       child: ListView(
                           shrinkWrap: true,
-                          padding: EdgeInsets.all(15.0),
+                          padding: EdgeInsets.all(5.0),
                           children: [
                             ...courses
                                 .map<Widget>(
-                                  (GetCourses) => Padding(
+                                  (course) => Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 30),
+                                        vertical: 10),
                                     child: TextButton(
                                       onPressed: () => {
                                         Navigator.pop(context),
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const SecondRoute() //Test
-                                                // GetCourses(
-                                                //   GetCourses['courseName'],
-                                                //   GetCourses[
-                                                //       'courseInstructor'],
-                                                //   GetCourses[
-                                                //       'courseCredits'],
-                                                // )
-                                                )),
+                                              builder: (context) =>
+                                                  //    MySecondPage()
+                                                  //const SecondRoute() //Test
+                                                  GetCourses(
+                                                course['_id'],
+                                                course['courseName'],
+                                                course['courseInstructor'],
+                                                course['courseCredits']
+                                                    .toString(),
+                                              ),
+                                            )),
                                       },
                                       child: ListTile(
-                                        // leading: CircleAvatar(
-                                        //   radius: 30,
-                                        //   child: Text(""),
-                                        // ),
+                                        leading: Icon(
+                                          Icons.school_outlined,
+                                          color: Colors.black,
+                                          size: 30.0,
+                                        ),
                                         title: Text(
-                                          (GetCourses['courseName'] +
-                                              GetCourses['courseInstructor'] +
-                                              GetCourses['courseCredits']
-                                                  .toString()),
-                                          style: const TextStyle(fontSize: 20),
+                                          (course['courseName'] +
+                                                  " | " +
+                                                  course['courseInstructor'] +
+                                                  " | " +
+                                                  course['courseCredits']
+                                                      .toString()) +
+                                              " credits",
+                                          style: const TextStyle(fontSize: 16),
                                         ),
                                       ),
                                     ),

@@ -4,7 +4,6 @@
 import 'package:flutter/material.dart';
 import 'api.dart';
 import 'main.dart';
-import 'getStudents.dart';
 
 class GetCourses extends StatefulWidget {
   final String id, courseName, courseInstructor, courseCredits;
@@ -34,28 +33,14 @@ class _GetCoursesState extends State<GetCourses> {
     });
   }
 
-  List students = [];
-  bool _dbLoaded = false;
-
-  void initState() {
-    super.initState();
-
-    widget.api.getStudents().then((data) {
-      setState(() {
-        students = data;
-        _dbLoaded = true;
-
-        //data.sort((a, b) => a.courseName.compareTo(b.courseName));
-      });
-    });
-  }
+  TextEditingController nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.courseName + " Students",
+          widget.courseName,
           style: TextStyle(fontSize: 25),
         ),
       ),
@@ -66,11 +51,20 @@ class _GetCoursesState extends State<GetCourses> {
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: <Widget>[
+                  Text(
+                    "Enter a new name for fname",
+                    //widget.fname,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.text,
+                    controller: nameController,
+                  ),
                   ElevatedButton(
                       onPressed: () => {
-                            print(students),
+                            _editStudentFname(widget.id, nameController.text),
                           },
-                      child: Text("Print Students in Console")),
+                      child: Text("Change Name")),
                 ],
               ),
             )

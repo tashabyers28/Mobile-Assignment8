@@ -17,12 +17,6 @@ const STUDENT = new mongoose.Schema({
         type: String,
         required: true
     },
-    dateEntered:
-    {
-        type: Date,
-        required: true,
-        default: Date.now
-    },
 });
 
 mongoose.model("STUDENT", STUDENT);

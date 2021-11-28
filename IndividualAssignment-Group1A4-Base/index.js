@@ -86,6 +86,17 @@ app.get('/getAllStudents', async (req, res) => {
     }
 });
 
+app.get('/getStudents', async (req, res) => {
+    try {
+        let students = await Student.find({})
+        return res.status(200).json(students)
+
+    }
+    catch {
+        return res.status(500).json("Error - students not found");
+    }
+});
+
 //ROUTENAME written by Jax Pelzer
 /*
     This is a get route that will find a student with first name 
@@ -240,6 +251,28 @@ app.post('/editStudentByFname', async (req, res) => {
         }
 });
 
+app.post('/editStudentFname', async (req, res) => {
+    try { // for Assignment 8
+     let student = await Student.updateOne({ fname: req.body.queryFname },
+        { $set:
+            { fname: req.body.fname, lname: req.body.lname }
+        }, 
+        {upsert: true}
+        );
+        if(student)
+            {
+                res.status(200).json("Student edited");
+            }
+        else
+        {
+            return res.status(200).json("Oops, student not edited");
+        }        
+    }
+    catch {
+        return res.status(500).json("Failed to access student");
+        }
+});
+
 //ROUTENAME /editCourseByCourseName written by Tasha B.
 //Inserting the following courseName and a new instructor name will update
 //the old instructor name to the new posted instructor name
@@ -282,6 +315,22 @@ app.post('/editCourseByCourseName', async (req, res) => {
 */
 app.post('/deleteCourseById', async (req, res) => {
     try {//Works!
+        let course = await Course.deleteOne({ courseID: req.body.id });
+
+        if(course){
+            return res.status(200).json("Course has been deleted");
+        }
+        else{
+            return res.status(200).json("Oops, course not deleted");
+        }
+    }
+    catch {
+        return res.status(500).json("Failed to access course");
+    }
+});
+
+app.post('/deleteCourse', async (req, res) => {
+    try {// for Assignment 8
         let course = await Course.deleteOne({ courseID: req.body.id });
 
         if(course){

@@ -1,6 +1,8 @@
-import 'package:dio/dio.dart';
+// ignore_for_file: unused_import, file_names
 
+import 'package:dio/dio.dart';
 import './models/courses.dart';
+import './models/students.dart';
 
 //const String localhost = "http://localhost:1200/";
 const String localhost = "http://10.0.2.2:1200/";
@@ -14,15 +16,23 @@ class CourseStudentApi {
     final response = await _dio.get('/getCourses');
 
     return response.data['courses'];
-    //return (response.data as List).map((x) => Course.fromJson(x)).toList();
   }
 
-  // Future editCoin(String id, double price) async {
-  //   final response =
-  //       await _dio.post('/editCoin', data: {'id': id, 'price': price});
-  // }
+  Future<List> getStudents() async {
+    final response = await _dio.get('/getStudents');
 
-  // Future deleteCoin(String id) async {
-  //   final response = await _dio.post('/deleteCoin', data: {'id': id});
-  // }
+    return response.data['students'];
+  }
+
+  Future editStudentFname(String id, String fname) async {
+    final response =
+        await _dio.post('/editStudentFname', data: {'id': id, 'fname': fname});
+    return response.data['students'];
+  }
+
+  Future deleteCourse(String courseName) async {
+    final response =
+        await _dio.post('/deleteCourse', data: {'courseName': courseName});
+    return response.data['courses'];
+  }
 }
