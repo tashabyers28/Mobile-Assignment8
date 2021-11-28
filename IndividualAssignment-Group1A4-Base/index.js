@@ -78,7 +78,7 @@ app.get('/getCourses', async (req, res) => {
 app.get('/getAllStudents', async (req, res) => {
     try {
         let students = await Student.find({})
-        return res.status(200).json(students)
+        return res.status(200).json({"students": students})
 
     }
     catch {
@@ -89,7 +89,7 @@ app.get('/getAllStudents', async (req, res) => {
 app.get('/getStudents', async (req, res) => {
     try {
         let students = await Student.find({})
-        return res.status(200).json(students)
+        return res.status(200).json({"students": students})
 
     }
     catch {

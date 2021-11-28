@@ -25,6 +25,15 @@ class _GetCoursesState extends State<GetCourses> {
   _GetCoursesState(
       this.id, this.courseName, this.courseInstructor, this.courseCredits);
 
+  void _deleteCourse(courseName) {
+    setState(() {
+      widget.api.deleteCourse(courseName);
+      Navigator.pop(context);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MyHomePage()));
+    });
+  }
+
   void _editStudentFname(id, fname) {
     setState(() {
       widget.api.editStudentFname(id, fname);
