@@ -123,6 +123,10 @@ class _GetCoursesState extends State<GetCourses> {
                                               student['lname']),
                                           style: const TextStyle(fontSize: 18),
                                         ),
+                                        trailing: Icon(
+                                            Icons.keyboard_arrow_right,
+                                            color: Colors.grey,
+                                            size: 30.0),
                                       ),
                                     ),
                                   ),
