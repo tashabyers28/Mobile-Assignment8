@@ -69,23 +69,80 @@ class _GetCoursesState extends State<GetCourses> {
         ),
       ),
       body: Center(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: <Widget>[
-                  ElevatedButton(
-                      onPressed: () => {
-                            print(students),
-                          },
-                      child: Text("Print Students in Console")),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
+          child: _dbLoaded
+              ? Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Column(
+                        children: <Widget>[
+                          ElevatedButton(
+                              onPressed: () => {
+                                    _deleteCourse(courseName),
+                                  },
+                              child: Text(
+                                  "Delete " + widget.courseName + " course")),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.all(2.0),
+                          children: [
+                            ...students
+                                .map<Widget>(
+                                  (student) => Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 1),
+                                    child: TextButton(
+                                      onPressed: () => {
+                                        Navigator.pop(context),
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  //    MySecondPage()
+                                                  //const SecondRoute() //Test
+                                                  GetStudents(
+                                                student['_id'],
+                                                student['fname'],
+                                                student['lname'],
+                                              ),
+                                            )),
+                                      },
+                                      child: ListTile(
+                                        leading: Icon(
+                                          Icons.person,
+                                          color: Colors.black,
+                                          size: 30.0,
+                                        ),
+                                        title: Text(
+                                          (student['fname'] +
+                                              " " +
+                                              student['lname']),
+                                          style: const TextStyle(fontSize: 18),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                                .toList(),
+                          ]),
+                    ),
+                  ],
+                )
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const <Widget>[
+                    Text(
+                      "Database Loading",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    CircularProgressIndicator()
+                  ],
+                )),
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.home),
           onPressed: () => {
