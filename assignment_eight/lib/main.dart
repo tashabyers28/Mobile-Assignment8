@@ -47,9 +47,11 @@ class _MyHomePageState extends State<MyHomePage> {
         courses = data;
         _dbLoaded = true;
 
-        //data.sort((a, b) => a.courseName.compareTo(b.courseName));
+        courses.sort((a, b) => a['courseName'].compareTo(b['courseName']));
       });
     });
+
+    //sort the list
   }
 
   @override

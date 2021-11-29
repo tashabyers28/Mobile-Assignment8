@@ -63,6 +63,7 @@ app.get('/getAllCourses', async (req, res) => {
 app.get('/getCourses', async (req, res) => {
     try {
         let courses = await Course.find({}).lean();
+        
         return res.status(200).json({"courses": courses});
     }
     catch {
