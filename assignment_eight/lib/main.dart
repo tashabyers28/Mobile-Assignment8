@@ -3,10 +3,7 @@
 //import 'package:assignment_eight/models/courses.dart';
 import 'package:flutter/material.dart';
 import 'api.dart';
-
-import 'getStudents.dart';
 import 'getCourses.dart';
-//import 'getCoursesStateful.dart';
 
 void main() {
   runApp(const MyApp());
@@ -85,6 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                         vertical: 10),
                                     child: TextButton(
                                       onPressed: () => {
+                                        //print(courses),
                                         Navigator.pop(context),
                                         Navigator.push(
                                             context,

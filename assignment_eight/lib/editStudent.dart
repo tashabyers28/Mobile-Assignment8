@@ -1,9 +1,10 @@
-// ignore_for_file: file_names, non_constant_identifier_names, use_key_in_widget_constructors, no_logic_in_create_state, prefer_const_constructors
+// ignore_for_file: file_names, non_constant_identifier_names, use_key_in_widget_constructors, no_logic_in_create_state, prefer_const_constructors, annotate_overrides, prefer_final_fields
 //import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'api.dart';
 import 'main.dart';
+import 'getStudents.dart';
 import 'getCourses.dart';
 
 class GetStudents extends StatefulWidget {
@@ -22,10 +23,27 @@ class _GetStudentsState extends State<GetStudents> {
 
   _GetStudentsState(this.id, this.fname, this.lname);
 
-  bool _dbLoaded = false;
-  List students = [];
+  void _deleteCourse(courseName) {
+    setState(() {
+      widget.api.deleteCourse(courseName);
+      Navigator.pop(context);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MyHomePage()));
+    });
+  }
 
-  //Create functions here
+  void _editStudentFname(id, fname) {
+    setState(() {
+      widget.api.editStudentFname(id, fname);
+      Navigator.pop(context);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => MyHomePage()));
+    });
+  }
+
+  List students = [];
+  bool _dbLoaded = false;
+
   void initState() {
     super.initState();
 
@@ -36,15 +54,6 @@ class _GetStudentsState extends State<GetStudents> {
 
         //data.sort((a, b) => a.courseName.compareTo(b.courseName));
       });
-    });
-  }
-
-  void _editStudentFname(id, fname) {
-    setState(() {
-      widget.api.editStudentFname(id, fname);
-      Navigator.pop(context);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => MyHomePage()));
     });
   }
 

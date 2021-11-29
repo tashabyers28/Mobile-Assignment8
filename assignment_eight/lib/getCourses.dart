@@ -25,18 +25,9 @@ class _GetCoursesState extends State<GetCourses> {
   _GetCoursesState(
       this.id, this.courseName, this.courseInstructor, this.courseCredits);
 
-  void _deleteCourse(courseName) {
+  void _deleteCourse(id) {
     setState(() {
-      widget.api.deleteCourse(courseName);
-      Navigator.pop(context);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => MyHomePage()));
-    });
-  }
-
-  void _editStudentFname(id, fname) {
-    setState(() {
-      widget.api.editStudentFname(id, fname);
+      widget.api.deleteCourse(id);
       Navigator.pop(context);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => MyHomePage()));
@@ -78,7 +69,7 @@ class _GetCoursesState extends State<GetCourses> {
                         children: <Widget>[
                           ElevatedButton(
                               onPressed: () => {
-                                    _deleteCourse(courseName),
+                                    _deleteCourse(id),
                                   },
                               child: Text(
                                   "Delete " + widget.courseName + " course")),

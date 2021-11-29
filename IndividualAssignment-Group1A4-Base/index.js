@@ -253,9 +253,9 @@ app.post('/editStudentByFname', async (req, res) => {
 
 app.post('/editStudentFname', async (req, res) => {
     try { // for Assignment 8
-     let student = await Student.updateOne({ fname: req.body.queryFname },
+     let student = await Student.updateOne({ _id: req.body.id },
         { $set:
-            { fname: req.body.fname, lname: req.body.lname }
+            { fname: req.body.fname }
         }, 
         {upsert: true}
         );
@@ -331,7 +331,7 @@ app.post('/deleteCourseById', async (req, res) => {
 
 app.post('/deleteCourse', async (req, res) => {
     try {// for Assignment 8
-        let course = await Course.deleteOne({ courseID: req.body.id });
+        let course = await Course.deleteOne({ _id: req.body.id });
 
         if(course){
             return res.status(200).json("Course has been deleted");
